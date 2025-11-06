@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}LaunchLens | AI-Powered Startup Analytics{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<section class="startup-hero">
+    <div class="container">
+        <div class="startup-hero-content">
+            <span class="startup-badge">Featured Product</span>
+            <h1 class="startup-title">LaunchLens</h1>
+            <p class="startup-tagline">AI-Powered Startup Analytics Dashboard</p>
+            <p class="startup-description">
+                Track, analyze, and optimize your product launches across Product Hunt, X (Twitter), and beyond. 
+                Make data-driven decisions during your most critical moments with real-time AI insights.
+            </p>
+            <div class="startup-buttons">
+                <button class="btn btn-primary btn-large">Request Early Access</button>
+                <button class="btn btn-secondary btn-large">Watch Demo</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-label">Core Features</span>
+            <h2>Everything You Need to Launch Successfully</h2>
+        </div>
+        
+        <div class="features-grid">
+            <div class="card feature-card stagger-1">
+                <div class="feature-icon">📊</div>
+                <h3>Real-Time Analytics</h3>
+                <p>Monitor your launch performance across multiple platforms with live data updates and comprehensive metrics.</p>
+            </div>
+            
+            <div class="card feature-card stagger-2">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Sentiment Analysis</h3>
+                <p>Understand how people feel about your product with advanced natural language processing and sentiment tracking.</p>
+            </div>
+            
+            <div class="card feature-card stagger-3">
+                <div class="feature-icon">🎯</div>
+                <h3>Competitor Tracking</h3>
+                <p>Benchmark your performance against competitors and identify opportunities to stand out in the market.</p>
+            </div>
+            
+            <div class="card feature-card stagger-4">
+                <div class="feature-icon">💰</div>
+                <h3>ROI Calculator</h3>
+                <p>Calculate the return on investment of your launch campaigns with predictive analytics and forecasting.</p>
+            </div>
+            
+            <div class="card feature-card stagger-5">
+                <div class="feature-icon">📈</div>
+                <h3>Growth Insights</h3>
+                <p>Discover actionable insights to accelerate your growth and maximize user acquisition.</p>
+            </div>
+            
+            <div class="card feature-card stagger-6">
+                <div class="feature-icon">🔔</div>
+                <h3>Smart Alerts</h3>
+                <p>Get notified about important events, trending mentions, and opportunities in real-time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-secondary">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-label">Dashboard Preview</span>
+            <h2>Powerful Analytics at Your Fingertips</h2>
+        </div>
+        
+        <div class="dashboard-mockup">
+            <div class="dashboard-header">
+                <h3>Launch Performance Overview</h3>
+                <div class="dashboard-period">Last 7 Days</div>
+            </div>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-label">Total Upvotes</div>
+                    <div class="stat-value">2,847</div>
+                    <div class="stat-change positive">+23.5%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Engagement Rate</div>
+                    <div class="stat-value">18.2%</div>
+                    <div class="stat-change positive">+5.3%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Sentiment Score</div>
+                    <div class="stat-value">8.7/10</div>
+                    <div class="stat-change positive">+0.8</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Conversion Rate</div>
+                    <div class="stat-value">12.4%</div>
+                    <div class="stat-change positive">+3.1%</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-charts">
+                <div class="chart-container">
+                    <h4>Launch Performance Trend</h4>
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>Sentiment Distribution</h4>
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-label">Technology</span>
+            <h2>Built with Cutting-Edge Tech</h2>
+        </div>
+        
+        <div class="tech-showcase">
+            <div class="card tech-category-card">
+                <h3>Frontend</h3>
+                <div class="tech-list">
+                    <span>React.js</span>
+                    <span>Next.js</span>
+                    <span>TypeScript</span>
+                    <span>Tailwind CSS</span>
+                    <span>Chart.js</span>
+                </div>
+            </div>
+            
+            <div class="card tech-category-card">
+                <h3>Backend</h3>
+                <div class="tech-list">
+                    <span>Flask</span>
+                    <span>Python</span>
+                    <span>PostgreSQL</span>
+                    <span>Redis</span>
+                    <span>WebSocket</span>
+                </div>
+            </div>
+            
+            <div class="card tech-category-card">
+                <h3>AI & Analytics</h3>
+                <div class="tech-list">
+                    <span>OpenAI GPT-4</span>
+                    <span>NLP</span>
+                    <span>Sentiment Analysis</span>
+                    <span>Predictive Models</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Launch Smarter?</h2>
+            <p>Join the waitlist for LaunchLens and be among the first to access AI-powered launch analytics.</p>
+            <button class="btn btn-primary btn-large">Request Early Access</button>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+    new Chart(performanceCtx, {
+        type: 'line',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+            datasets: [{
+                label: 'Upvotes',
+                data: [245, 389, 512, 687, 845, 1023, 1247],
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'Engagement',
+                data: [156, 234, 298, 412, 534, 678, 823],
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#6b7280'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { color: '#6b7280' },
+                    grid: { color: '#e5e7eb' }
+                },
+                x: {
+                    ticks: { color: '#6b7280' },
+                    grid: { color: '#e5e7eb' }
+                }
+            }
+        }
+    });
+    
+    const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+    new Chart(sentimentCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Positive', 'Neutral', 'Negative'],
+            datasets: [{
+                data: [72, 21, 7],
+                backgroundColor: [
+                    '#22c55e',
+                    '#3b82f6',
+                    '#ef4444'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#6b7280'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
