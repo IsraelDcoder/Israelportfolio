@@ -140,8 +140,13 @@ document.getElementById('contactForm').addEventListener('submit', async function
         const result = await response.json();
         
         if (result.success) {
-            formMessage.className = 'form-message success';
-            formMessage.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+            if (result.email_sent) {
+                formMessage.className = 'form-message success';
+                formMessage.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+            } else {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = result.email_error || 'Message saved, but email delivery is not configured yet. Please email me directly.';
+            }
             e.target.reset();
         } else {
             throw new Error('Failed to send message');

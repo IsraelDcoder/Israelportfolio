@@ -22,6 +22,24 @@ app = Flask(__name__, template_folder='template', static_folder='static')
 CORS(app)
 app.config['SECRET_KEY'] = os.getenv('SESSION_SECRET', 'dev-secret-key')
 
+
+def is_placeholder_value(value):
+    if not value:
+        return False
+
+    placeholders = {
+        'your-email@example.com',
+        'your-smtp-password-or-app-password',
+        'your-maileroo-username',
+        'your-maileroo-password',
+        'your-maileroo-smtp-username',
+        'your-maileroo-smtp-password',
+        'changeme',
+        'replace-me'
+    }
+    return value.strip().lower() in placeholders
+
+
 def get_db_connection():
     # Use SQLITE_PATH from .env if set, otherwise default to database.db in project
     db_path = os.getenv('SQLITE_PATH', 'database.db')
@@ -137,15 +155,16 @@ def contact():
         
         # Try to send email notification (if SMTP configured)
         recipient = os.getenv('CONTACT_RECIPIENT', 'theonyekachithompson@gmail.com')
-        smtp_server = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
-        smtp_port = int(os.getenv('SMTP_PORT', '465'))
+        smtp_server = os.getenv('SMTP_SERVER', 'smtp.maileroo.com')
+        smtp_port = int(os.getenv('SMTP_PORT', '2525'))
         smtp_user = os.getenv('SMTP_USERNAME')
         smtp_pass = os.getenv('SMTP_PASSWORD')
+        smtp_use_tls = os.getenv('SMTP_USE_TLS', 'true').strip().lower() in {'1', 'true', 'yes', 'y'}
 
         email_sent = False
         email_error = None
 
-        if smtp_user and smtp_pass:
+        if smtp_user and smtp_pass and not is_placeholder_value(smtp_user) and not is_placeholder_value(smtp_pass):
             try:
                 msg = EmailMessage()
                 msg['Subject'] = f'New contact message: {subject or "(no subject)"}'
@@ -163,15 +182,24 @@ Submitted at: {datetime.utcnow().isoformat()} UTC
 """)
 
                 context = ssl.create_default_context()
-                with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
-                    server.login(smtp_user, smtp_pass)
-                    server.send_message(msg)
+
+                if smtp_use_tls:
+                    with smtplib.SMTP(smtp_server, smtp_port) as server:
+                        server.starttls(context=context)
+                        server.login(smtp_user, smtp_pass)
+                        server.send_message(msg)
+                else:
+                    with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
+                        server.login(smtp_user, smtp_pass)
+                        server.send_message(msg)
+
                 email_sent = True
             except Exception as e:
                 logging.exception('Failed to send contact email')
                 email_error = str(e)
         else:
-            logging.warning('SMTP credentials not configured; skipping sending email.')
+            logging.warning('SMTP credentials not configured or still using placeholder values; message saved but email delivery skipped.')
+            email_error = 'Email delivery is not configured yet. Update the SMTP credentials in .env with your real Maileroo values.'
 
         return jsonify({'success': True, 'message': 'Message saved.', 'email_sent': email_sent, 'email_error': email_error})
     
