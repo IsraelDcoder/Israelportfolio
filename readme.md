@@ -136,7 +136,7 @@ AI chatbot endpoint using OpenRouter AI.
 ```
 
 ### `/contact` (POST)
-Saves contact form submissions to PostgreSQL.
+Saves contact form submissions to the local SQLite database and (optionally) sends the message as an email to a configured recipient.
 
 **Request:**
 ```json
@@ -147,6 +147,12 @@ Saves contact form submissions to PostgreSQL.
   "message": "I'd like to discuss..."
 }
 ```
+
+**Notes:**
+- To enable email delivery, set SMTP credentials (see Environment Variables below). If SMTP is not configured, messages will still be stored in the local database.
+
+---
+
 
 ## Database Schema
 
@@ -178,6 +184,16 @@ Saves contact form submissions to PostgreSQL.
   - Get your API key at: https://openrouter.ai/
   - Free tier available with Llama models
   - Without this, chatbot will show error message but rest of site works
+
+- `SMTP_SERVER` - SMTP server to send contact emails (default: `smtp.gmail.com`)
+- `SMTP_PORT` - SMTP port (default: `465` for SMTPS)
+- `SMTP_USERNAME` - SMTP username (required to send emails)
+- `SMTP_PASSWORD` - SMTP password or app-specific password (required to send emails)
+- `CONTACT_RECIPIENT` - Email address that will receive contact form messages (default: `theonyekachithompson@gmail.com`)
+
+Notes:
+- For Gmail, create an App Password and set `SMTP_USERNAME` to your Gmail address and `SMTP_PASSWORD` to the app password. See: https://support.google.com/accounts/answer/185833
+- If SMTP vars are not set, contact messages will still be stored in the local SQLite database but no email will be sent.
 
 ## Design System
 

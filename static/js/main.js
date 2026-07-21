@@ -2,6 +2,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     const navbar = document.querySelector('.navbar');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle ? themeToggle.querySelector('.theme-icon') : null;
+
+    const applyTheme = (theme) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('portfolio-theme', theme);
+        if (themeIcon) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+    };
+
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    if (savedTheme === 'dark') {
+        applyTheme('dark');
+    } else {
+        applyTheme('light');
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+    }
     
     if (navToggle) {
         navToggle.addEventListener('click', function() {

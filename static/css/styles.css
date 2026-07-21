@@ -13,6 +13,27 @@
     --accent-blue: #3b82f6;
     --border-color: #e5e7eb;
     --hover-bg: #f3f4f6;
+    --card-bg: #ffffff;
+    --navbar-bg: rgba(255, 255, 255, 0.95);
+    --shadow-color: rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="dark"] {
+    --bg-primary: #020617;
+    --bg-secondary: #0b1220;
+    --text-primary: #f8fafc;
+    --text-secondary: #9fb0ca;
+    --accent-green: #4ade80;
+    --accent-blue: #60a5fa;
+    --border-color: #1f2a44;
+    --hover-bg: #12203a;
+    --card-bg: #091120;
+    --navbar-bg: rgba(2, 6, 23, 0.88);
+    --shadow-color: rgba(0, 0, 0, 0.55);
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -21,6 +42,30 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.15), transparent 26%),
+        radial-gradient(circle at top right, rgba(74, 222, 128, 0.12), transparent 24%),
+        radial-gradient(circle at bottom center, rgba(59, 130, 246, 0.12), transparent 30%);
+    z-index: -1;
+}
+
+body, .navbar, .card, .project-card, .project-card-large, .blog-card, .contact-method, .social-card {
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body[data-theme="dark"]::before {
+    background:
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.25), transparent 28%),
+        radial-gradient(circle at top right, rgba(74, 222, 128, 0.18), transparent 26%),
+        radial-gradient(circle at bottom center, rgba(59, 130, 246, 0.24), transparent 34%);
 }
 
 @keyframes fadeInUp {
@@ -87,6 +132,26 @@ body {
     }
 }
 
+@keyframes floatGlow {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+        box-shadow: 0 12px 30px rgba(96, 165, 250, 0.15);
+    }
+    50% {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 18px 40px rgba(96, 165, 250, 0.25);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
 .animate-on-scroll {
     opacity: 0;
     animation: fadeInUp 0.6s ease-out forwards;
@@ -116,7 +181,7 @@ h1, h2, h3, h4, h5, h6 {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--navbar-bg);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     padding: 1rem 0;
@@ -222,6 +287,9 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
     padding-top: 80px;
     text-align: center;
+    background:
+        radial-gradient(circle at top, rgba(99, 102, 241, 0.10), transparent 20%),
+        radial-gradient(circle at bottom, rgba(34, 197, 94, 0.08), transparent 35%);
 }
 
 .hero-content {
@@ -233,13 +301,13 @@ h1, h2, h3, h4, h5, h6 {
     height: 120px;
     border-radius: 50%;
     margin: 0 auto 2rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #0ea5e9 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
     color: white;
-    animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: floatGlow 4s ease-in-out infinite, scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -378,7 +446,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-    background: var(--text-primary);
+    background: linear-gradient(135deg, #111827 0%, #2563eb 100%);
     color: white;
 }
 
@@ -391,8 +459,31 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--bg-secondary);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
 }
 
+.theme-toggle {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-1px);
+    background: var(--hover-bg);
+}
+
+.theme-icon {
+    font-size: 1rem;
+}
 .btn-secondary:hover {
     background: var(--hover-bg);
 }
@@ -481,12 +572,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card {
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    box-shadow: 0 8px 24px var(--shadow-color);
 }
 
 .card::after {
@@ -518,6 +610,41 @@ h1, h2, h3, h4, h5, h6 {
     gap: 2rem;
 }
 
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.experience-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.experience-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.experience-top h3 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.experience-top span {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.experience-card p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+}
+
 .about-card {
     text-align: center;
 }
@@ -543,11 +670,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .project-card {
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px var(--shadow-color);
 }
 
 .project-card:hover {
@@ -562,12 +690,20 @@ h1, h2, h3, h4, h5, h6 {
 .project-image {
     width: 100%;
     height: 240px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Remove gradient so user image shows clearly */
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4rem;
-    color: white;
+    overflow: hidden;
+}
+
+.project-icon {
+    /* Make user image fill the area boldly */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1095,10 +1231,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .project-card-large {
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 10px 30px var(--shadow-color);
 }
 
 .project-card-large:hover {
